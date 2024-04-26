@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- scan：配置变化重新加载； debug:logback内部日志 -->
+
+<!-- scan="true" scanPeriod="60 seconds" -->
+<configuration scan="false" debug="false">
+
+    <property name="logDir" value="D:/temp/log/springboot" />
+
+    <!--
+     <property name="logDir" value="D:/temp/log/springboot" />
+     -->
+
+    <!-- 控制台输出用layout；文件输出用encoder -->
+    <appender name="console1" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!-- 时间 -1 消息 换行 -->
+            <pattern>%d - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <!-- 文件 -->
+    <appender name="file1" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${logDir}/log-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n </pattern>
+        </encoder>
+
+    </appender>
+
+    <!-- 必选节点，指定最基础的日志输出级别。
+        大小写不敏感。 TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF。 默认debug。
+        可以多个appender，比如说输出到控制台，还输出到日志。
+    -->
+    <root level="info">
+        <appender-ref ref="console1"/>
+        <appender-ref ref="file1"/>
+    </root>
+
+</configuration>
+
